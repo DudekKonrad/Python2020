@@ -1,0 +1,19 @@
+import random
+import math
+
+
+def calc_pi(n):
+	inside = 0
+	for i in range(0, n):
+		rand_x = random.random() ** 2
+		rand_y = random.random() ** 2
+
+		if math.sqrt(rand_x + rand_y) <= 1:
+			inside += 1
+	return (float(inside) / n) * 4
+
+
+test = 10
+while test <= 100000:
+	print("n =", test, "pi =", calc_pi(test))
+	test *= 10
