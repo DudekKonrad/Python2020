@@ -1,0 +1,45 @@
+import time
+
+
+dictionary = {
+	(0, 0): 0.5,
+	(0, 1): 1,
+	(1, 0): 0
+}
+
+
+def recursion(i, j):
+	if i == 0 and j == 0:
+		return dictionary.get((0, 0))
+	if i == 0:
+		return dictionary.get((0, 1))
+	if j == 0:
+		return dictionary.get((1, 0))
+	else:
+		return 0.5*(recursion(i-1, j) + recursion(i, j-1))
+
+
+def dynamic(i, j):
+	if (i, j) in dictionary.keys():
+		return dictionary.get((i, j))
+	if i == 0:
+		return dictionary.get((0, 1))
+	if j == 0:
+		return dictionary.get((1, 0))
+	else:
+		dictionary[(i, j)] = 0.5 * (dynamic(i-1, j) + dynamic(i, j-1))
+		return dictionary.get((i, j))
+
+
+i = 14
+j = 11
+
+start = time.time()
+recursion_value = recursion(i, j)
+end = time.time()
+
+start2 = time.time()
+dynamic_value = dynamic(i, j)
+end2 = time.time()
+print("Recursion value: ", round(recursion_value, 5), "time: ", round(end-start, 7))
+print("Dynamic: ", round(dynamic_value, 5), "time: ", round(end2-start2, 7))
