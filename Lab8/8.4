@@ -1,0 +1,10 @@
+import math
+
+
+def heron(a, b, c):
+	if a < b + c and b < a + c and c < b + a:
+		p = 1 / 2 * (a + b + c)
+		return math.sqrt(p * (p - a) * (p - b) * (p - c))
+	else:
+		raise ValueError("A triangle with such sides does not exist.")
+
