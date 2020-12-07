@@ -1,0 +1,23 @@
+def solve1(a, b, c):
+  if a == 0:
+    if b == 0:
+      if c == 0:
+        print("Identity equation")
+      else:
+        print("No solutions")
+    else:
+      if c == 0:
+        print("y = 0")
+      else:
+        print("y =", -c/b)
+  else:
+    if b == 0:
+      if c == 0:
+        print("x = 0")
+      else:
+        print("x=", -c/a)
+    else:
+      if c == 0:
+        print("y=", -a/b, "*x")
+      else:
+        print("y = ", -a/b, "*x + ", -c/b)
