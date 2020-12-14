@@ -1,0 +1,120 @@
+class Node:
+	def __init__(self, data=None, left=None, right=None):
+		self.data = data
+		self.left = left
+		self.right = right
+
+	def __str__(self):
+		return str(self.data)
+
+	def insert(self, node):
+		if node.data < self.data:
+			if self.left:
+				self.left.insert(node)
+			else:
+				self.left = node
+		else:
+			if self.right:
+				self.right.insert(node)
+			else:
+				self.right = node
+
+	def print_tree(self):
+		if self.left:
+			self.left.print_tree()
+		print(self.data)
+		if self.right:
+			self.right.print_tree()
+
+	def count(self):
+		counter = 1
+		if self.left:
+			counter += self.left.count()
+		if self.right:
+			counter += self.right.count()
+		return counter
+
+	def count_value(self):
+		counter = 0
+		counter += self.data
+		if self.left:
+			counter += self.left.count_value()
+		if self.right:
+			counter += self.right.count_value()
+		return counter
+
+	def search(self, data):
+		if self.data == data:
+			return self
+		if data < self.data:
+			if self.left:
+				return self.left.search(data)
+		else:
+			if self.right:
+				return self.right.search(data)
+		return None
+
+	def remove(self, data):
+		if data < self.data:
+			if self.left:
+				self.left = self.left.remove(data)
+		elif self.data < data:
+			if self.right:
+				self.right = self.right.remove(data)
+		else:
+			if self.left is None:
+				return self.right
+			else:
+				node = self.left
+				while node.right:
+					node = node.right
+				node.right = self.right
+				return self.left
+		return self
+
+
+class BinarySearchTree:
+	def __init__(self):
+		self.root = None
+		self.total = 0
+
+	def __str__(self):
+		node = self.root
+		if node:
+			return str(node)
+
+	def insert(self, node):
+		if self.root:
+			self.root.insert(node)
+		else:
+			self.root = node
+
+	def print_tree(self):
+		self.root.print_tree()
+
+	def count(self):
+		if self.root:
+			return self.root.count()
+		else:
+			return 0
+
+	def search(self, data):
+		if self.root:
+			return self.root.search(data)
+		else:
+			return None
+
+	def remove(self, data):
+		if self.root:
+			self.root = self.root.remove(data)
+
+	def count_leafs(self, node):
+		if node is None:
+			return 0
+		if node.left is None and node.right is None:
+			return 1
+		else:
+			return self.count_leafs(node.left) + self.count_leafs(node.right)
+
+	def count_total(self):
+		return self.root.count_value()
