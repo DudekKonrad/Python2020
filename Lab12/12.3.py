@@ -22,15 +22,16 @@ def quickSort(arr, low, high):
 ##
 
 def mediana_sort(L, left, right):
+	leng = right - left
 	quickSort(L, left, right)
-	if len(L) % 2 == 1:
-		return L[int(len(L)/2)]
+	if leng % 2 == 0:
+		return L[int(leng/2)]
 	else:
-		result = (L[int((len(L))/2-0.5)] + L[int((len(L))/2+0.5)])/2
+		result = (L[int((leng)/2-0.5)] + L[int((leng)/2+0.5)])/2
 		return result
 
 
 lista = [1, 6, 8, 6, 6, 4, 10, 5, 9, 7, 1]
 print("Lista: ", lista)
-result = mediana_sort(lista, 0, len(lista)-1)
+result = mediana_sort(lista, 0, 2)
 print("Mediana: ", result)
