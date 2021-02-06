@@ -29,10 +29,7 @@ class Edge:
         return result
 
     def __lt__(self, other):
-        if self.weight < other.weight:
-            return False
-        elif self.weight > other.weight:
-            return True
+        return self.weight < other.weight
 
     def __ge__(self, other):
         return self.weight > other.weight
@@ -74,7 +71,7 @@ class Graph:
             vertex = MySet(vertex)
             sets.append(vertex)
 
-        self.edges.sort(reverse=True)
+        self.edges.sort()
         number_of_sets = len(self.vertices)
         for e in self.edges:
             u = sets[e.v1id]
