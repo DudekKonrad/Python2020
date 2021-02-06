@@ -45,7 +45,7 @@ class Graph:
 
     def __init__(self):
         self.clusters = 0
-        self.vertexes = []
+        self.vertices = []
         self.edges = []
 
     def read_graph(self, file_name):
@@ -55,27 +55,27 @@ class Graph:
             reader = csv.reader(file)
             for row in reader:
                 v = Vertex(vertex_id, row[0], row[1])
-                self.vertexes.append(v)
+                self.vertices.append(v)
                 vertex_id += 1
 
-        for i in range(len(self.vertexes)):
-            for j in range(k, len(self.vertexes)):
-                x_value = (float(self.vertexes[j].x) - float(self.vertexes[i].x)) ** 2
-                y_value = (float(self.vertexes[j].y) - float(self.vertexes[i].y)) ** 2
+        for i in range(len(self.vertices)):
+            for j in range(k, len(self.vertices)):
+                x_value = (float(self.vertices[j].x) - float(self.vertices[i].x)) ** 2
+                y_value = (float(self.vertices[j].y) - float(self.vertices[i].y)) ** 2
                 weight = math.sqrt(x_value + y_value)
-                e = Edge(weight, self.vertexes[i].id, self.vertexes[j].id)
+                e = Edge(weight, self.vertices[i].id, self.vertices[j].id)
                 self.edges.append(e)
             k += 1
 
     def Kruskal(self, number_of_clusters):
         sets = []
 
-        for vertex in self.vertexes:
+        for vertex in self.vertices:
             vertex = MySet(vertex)
             sets.append(vertex)
 
         self.edges.sort(reverse=True)
-        number_of_sets = len(self.vertexes)
+        number_of_sets = len(self.vertices)
         for e in self.edges:
             u = sets[e.v1id]
             v = sets[e.v2id]
