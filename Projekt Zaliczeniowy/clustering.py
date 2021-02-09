@@ -65,62 +65,51 @@ class Graph:
             k += 1
 
     def Kruskal(self, number_of_clusters):
-        sets = []
+        uf = UnionFind()
 
         for vertex in self.vertices:
-            vertex = MySet(vertex)
-            sets.append(vertex)
+            uf.create(vertex)
 
         self.edges.sort()
         number_of_sets = len(self.vertices)
+        print(number_of_sets)
         for e in self.edges:
-            u = sets[e.v1id]
-            v = sets[e.v2id]
-            if u is not None and v is not None:
-                if Find_Set(u) != Find_Set(v) and number_of_sets != number_of_clusters:
-                    My_Union(sets, u, v)
-                    number_of_sets -= 1
-        return sets
+            u = self.vertices[e.v1id]
+            v = self.vertices[e.v2id]
+            if uf.find(u) != uf.find(v) and number_of_sets != number_of_clusters:
+                uf.union(u, v)
+                number_of_sets -= 1
+        return uf.parent
 
 
-class MySet:
+class UnionFind:
 
-    def __init__(self, x):
-        self.data = {x}
-        self.representative = x.id
+    def __init__(self):
+        self.parent = {}
 
-    def __len__(self):
-        return len(self.data)
+    def create(self, x):
+        if x not in self.parent:
+            self.parent[x] = x
 
+    def find(self, x):
+        return self.parent[x]
 
-def Find_Set(s):
-    return s.representative
+    def union(self, x, y):
+        z = self.parent[x]
+        if z == self.parent[y]:
+            return
+        for x in self.parent:
+            if self.parent[x] == z:
+                self.parent[x] = self.parent[y]
 
-
-def My_Union(list_of_sets, s1, s2):
-    if len(s1) > len(s2):
-        s1.data.update(s2.data)
-        list_of_sets[s2.representative] = None
-    else:
-        s2.data.update(s1.data)
-        list_of_sets[s1.representative] = None
-
-
-colors = ['red', 'green', 'blue', 'yellow', 'black', 'orange', 'purple', 'pink',
-          'cyan', 'olive', 'gray', 'brown', 'sienna', 'palegreen', 'slategray',
-          'tan', 'lime', 'royalblue', 'stateblue', 'darkorchid', 'plum', 'sandybrown']
 
 
 def draw_result(filename, c):
     g = Graph()
     g.read_graph(filename)
     result = g.Kruskal(c)
-    k = 0
-    for s in result:
-        if s is not None:
-            for v in s.data:
-                plt.scatter(float(v.x), float(v.y), s=30, color=colors[k])
-            k += 1
+    for i in result:
+        plt.scatter(float(i.x), float(i.y), s=2, color=('C' + str(result[i].id)))
 
     plt.title(filename)
     plt.xlabel("X")
@@ -135,9 +124,7 @@ elif len(sys.argv) < 3:
     print("\nPodano za mało argumentów!\nProgram uruchamia się w następujący sposób:\nclustering.py [nazwa pliku csv] "
           "[ilosc klastrów]\n")
 else:
-    if int(sys.argv[2]) > len(colors):
-        print("Maksymalna liczba na jaką można podzielić dane to ", len(colors))
-    elif int(sys.argv[2]) < 0:
+    if int(sys.argv[2]) < 0:
         print("Nie można dzielić na ujemną liczbę!")
     else:
         filename = sys.argv[1]
@@ -145,3 +132,4 @@ else:
         print("Program rozpoczął prace...")
         draw_result(filename, number_of_clusters)
         print("Przetwarzanie zakończone")
+ 
